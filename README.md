@@ -1,5 +1,5 @@
 # Bulk-EXIF-Editor
-Small Python utility to edit EXIF "date created" metadata on large bulk of photos
+Small Python utility to edit EXIF "date created" metadata on large bulks of photos.
 
 ## Usage
 
