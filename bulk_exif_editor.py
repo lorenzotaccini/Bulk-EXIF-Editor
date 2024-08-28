@@ -1,7 +1,5 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from PIL import Image
-from PIL.ExifTags import TAGS
 import piexif
 import os
 from tkcalendar import DateEntry
