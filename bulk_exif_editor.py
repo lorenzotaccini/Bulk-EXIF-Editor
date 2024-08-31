@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
+from PIL import Image
+from PIL.ExifTags import TAGS
 import piexif
 import os
 from tkcalendar import DateEntry
@@ -46,11 +48,19 @@ def cambia_data_exif(file_path, nuova_data):
 
         exif_bytes = piexif.dump(exif_dict)
         img.save(file_path, exif=exif_bytes)
+
+        # Converti la data in formato timestamp
+        nuova_data_formattata = time.strptime(nuova_data, "%Y:%m:%d %H:%M:%S")
+        nuova_data_timestamp = time.mktime(nuova_data_formattata)
+
+        # Modifica i timestamp del file
+        os.utime(file_path, (nuova_data_timestamp, nuova_data_timestamp))
         
         return True  # Indica che l'operazione è stata eseguita correttamente
     
     except Exception as e:
         return False  # Indica che c'è stato un errore
+
 
 # Funzione per selezionare i file
 def seleziona_file():
@@ -77,12 +87,19 @@ def modifica_data():
             # Mostra un unico messaggio alla fine
             if success:
                 messagebox.showinfo("Successo", "La data di scatto è stata modificata con successo per tutti i file selezionati!")
+                
+                # Aggiorna la Listbox con le nuove date EXIF
+                listbox_files.delete(0, tk.END)  # Svuota la lista precedente
+                for file_path in root.file_paths:
+                    data_exif = get_data_exif(file_path)
+                    listbox_files.insert(tk.END, f"{os.path.basename(file_path)} - Data di scatto: {data_exif}")
             else:
                 messagebox.showerror("Errore", "Si è verificato un errore durante la modifica di uno o più file.")
         else:
             messagebox.showwarning("Avviso", "Inserisci una nuova data prima di continuare.")
     else:
         messagebox.showwarning("Avviso", "Seleziona prima uno o più file.")
+
 
 # Creazione della GUI
 root = tk.Tk()
