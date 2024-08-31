@@ -18,3 +18,18 @@ or
 ```
 python bulk_exif_editor.py
 ```
+
+## Building an executable file
+
+It's really straightforward to transform this small python utility in a full-fat `.exe` portable file.  
+Firsly you need to install `Pyinstaller`:
+```
+pip install pyinstaller
+```
+Then you can just run the following line of code:
+```
+pyinstaller --onefile --windowed --collect-all=babel bulk_exif_editor.py
+```
+Some files and folders will be created, you can find the resulting executable file in `dist`.
+
+Enjoy!
